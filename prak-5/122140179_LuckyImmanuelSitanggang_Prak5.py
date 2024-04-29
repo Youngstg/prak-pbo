@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 class Game(ABC):
     @abstractmethod
-    def reset_game(self):
+    def __reset_game(self):
         pass
 
     @abstractmethod
@@ -17,7 +17,7 @@ class TebakAngka(Game):
         self.master.title("Game Tebak Angka")
         self.master.configure(bg='lightblue')
         self.master.geometry("500x300") 
-        self.reset_game()
+        self.__reset_game()
 
         self.label = tk.Label(self.master, text="TEBAK GAMBAR", fg="white", bg='midnight blue', font=('Calibri', 20))
         self.label.pack(pady=15)
@@ -25,7 +25,7 @@ class TebakAngka(Game):
         self.label = tk.Label(self.master, text="Masukkan angka antara 1 dan 100:", bg='lightblue', font=('Helvetica', 14))
         self.label.pack(pady=10)
 
-        self.entry = tk.Entry(self.master, textvariable=self.tebakan, font=('Helvetica', 14))
+        self.entry = tk.Entry(self.master, textvariable=self.__tebakan, font=('Helvetica', 14))
         self.entry.pack(pady=10)
 
         self.button = tk.Button(self.master, text="Tebak", command=self.play, bg='green', fg='white', font=('Helvetica', 14))
@@ -34,19 +34,19 @@ class TebakAngka(Game):
         self.result = tk.Label(self.master, text="", bg='lightblue', font=('Helvetica', 14))
         self.result.pack(pady=10)
 
-    def reset_game(self):
-        self.angka_rahasia = random.randint(1, 100)
-        self.tebakan = tk.IntVar()
+    def __reset_game(self):
+        self.__angka_rahasia = random.randint(1, 100)
+        self.__tebakan = tk.IntVar()
 
     def play(self):
-        tebakan = self.tebakan.get()
-        if tebakan < self.angka_rahasia:
+        tebakan = self.__tebakan.get()
+        if tebakan < self.__angka_rahasia:
             self.result.config(text="Terlalu rendah!", fg='red')
-        elif tebakan > self.angka_rahasia:
+        elif tebakan > self.__angka_rahasia:
             self.result.config(text="Terlalu tinggi!", fg='red')
         else:
             self.result.config(text="Tebakan Anda benar! Game akan dimulai lagi.", fg='green')
-            self.reset_game() 
+            self.__reset_game() 
 
 root = tk.Tk()
 game = TebakAngka(root)
